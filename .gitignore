@@ -1,0 +1,10 @@
+# The embedding model: 133 MB, fetched by scripts/get_model.sh
+models/
+
+# Derived artefacts. Everything here is regenerable with `make all`;
+# kept out of git so the repo stays reviewable rather than large.
+data/proc/
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
