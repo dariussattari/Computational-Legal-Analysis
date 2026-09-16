@@ -6,13 +6,14 @@
 #   make setup     one-time: python deps + the embedding model
 #   make all       corpus -> paragraphs -> embeddings -> result -> figures
 #   make result    the headline number, if data/proc is already built
+#   make walkthrough  every intermediate number, to audit the method by hand
 #   make negative  the three null results the paper reports
 #   make clean     delete derived artefacts (keeps raw sources)
 
 PY := python3
 SRC := src
 
-.PHONY: all setup corpus segment embed result robust negative figures clean distclean
+.PHONY: all setup corpus segment embed result robust negative figures walkthrough clean distclean
 
 # ---------------------------------------------------------------- setup ----
 setup:
@@ -40,6 +41,10 @@ data/proc/embeddings.npy: data/proc/paragraphs.jsonl $(SRC)/embed.py
 # The paper's finding: within-case difference-in-differences.
 result: data/proc/embeddings.npy
 	$(PY) $(SRC)/within.py
+
+# Full audit trail: every number between raw text and Delta, for Trump.
+walkthrough: data/proc/embeddings.npy
+	$(PY) $(SRC)/walkthrough.py
 
 # Placebo partition, role permutation, quotation, boundaries, thresholds.
 robust: data/proc/embeddings.npy

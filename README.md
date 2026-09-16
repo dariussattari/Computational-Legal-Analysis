@@ -102,6 +102,7 @@ docs/           PROVENANCE.md - the route to the method, for your methods sectio
 | File | Does |
 |---|---|
 | `within.py` | equations (1)–(3); the headline table |
+| `walkthrough.py` | `make walkthrough` — prints every intermediate number for *Trump* and asserts it matches `within.py` |
 | `within_robust.py` | placebo partition, role permutation, quotation, boundaries, thresholds |
 | `figure3.py` | the paper's figure |
 | `jackson.py` | section map of Jackson's concurrence; `strip_quotes` |
