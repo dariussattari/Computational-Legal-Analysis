@@ -20,6 +20,7 @@ warning. *Trump* is the most extreme instance in the corpus.
 | Sign test / Wilcoxon | p = .0059 / p = .0021 |
 | Placebo partition (corpus / *Trump*) | p = .043 / p = .0035 |
 | *Trump v. United States* | Δ = +24.4, rank 20 of 20, z = +1.98 |
+| *Trump* as outlier (Grubbs, and max-gap MC) | **not supported**: G = 2.29 vs expected max-gap 2.03–2.21, p = .24–.37 |
 
 ---
 
@@ -104,6 +105,7 @@ docs/           PROVENANCE.md - the route to the method, for your methods sectio
 | `within.py` | equations (1)–(3); the headline table |
 | `walkthrough.py` | `make walkthrough` — prints every intermediate number for *Trump* and asserts it matches `within.py` |
 | `within_robust.py` | placebo partition, role permutation, quotation, boundaries, thresholds |
+| `outlier.py` | whether *Trump* is a genuine outlier or the top of a continuum — **it is the latter** |
 | `figure3.py` | the paper's figure |
 | `jackson.py` | section map of Jackson's concurrence; `strip_quotes` |
 | `labels.py` | opinion-level stance labels (see *Judgment calls*) |

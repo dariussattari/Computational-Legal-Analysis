@@ -13,7 +13,7 @@
 PY := python3
 SRC := src
 
-.PHONY: all setup corpus segment embed result robust negative figures walkthrough clean distclean
+.PHONY: all setup corpus segment embed result robust negative figures walkthrough outlier clean distclean
 
 # ---------------------------------------------------------------- setup ----
 setup:
@@ -45,6 +45,10 @@ result: data/proc/embeddings.npy
 # Full audit trail: every number between raw text and Delta, for Trump.
 walkthrough: data/proc/embeddings.npy
 	$(PY) $(SRC)/walkthrough.py
+
+# Is Trump an outlier, or just the largest of twenty draws?
+outlier: data/proc/within.json
+	$(PY) $(SRC)/outlier.py
 
 # Placebo partition, role permutation, quotation, boundaries, thresholds.
 robust: data/proc/embeddings.npy
