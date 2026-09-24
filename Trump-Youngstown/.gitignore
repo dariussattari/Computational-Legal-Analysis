@@ -6,5 +6,8 @@ models/
 data/proc/
 __pycache__/
 *.pyc
-.DS_Store
 .venv/
+
+# Word lock files and scratch output from docx conversion
+~$*
+.docx_qa/

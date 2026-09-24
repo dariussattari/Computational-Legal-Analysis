@@ -1,207 +1,198 @@
-# Youngstown's Divided Inheritance
+# A Selective Precedent? *Youngstown* and Presidential Immunity
 
-A computational study of how *Trump v. United States*, 603 U.S. 593 (2024), inherits
-Justice Jackson's concurrence in *Youngstown Sheet & Tube Co. v. Sawyer*,
-343 U.S. 579 (1952).
+**Darius Sattari**
 
-**Claim.** Jackson's concurrence supplies two separable resources: a scheme for
-classifying presidential power (the three categories, 343 U.S. 635–638) and a
-structural warning about concentrating it (653–655). Across twenty divided
-presidential-power cases, majorities draw on the scheme and dissents on the
-warning. *Trump* is the most extreme instance in the corpus.
+> Did the majority in *Trump v. United States* (2024) use *Youngstown* differently
+> from other Supreme Court decisions — more selectively, taking one part of Justice
+> Jackson’s concurrence and leaving the rest? Across twenty divided presidential-power
+> cases, majorities lean on Jackson’s three categories and dissents on his structural
+> warning. *Trump* is the most extreme instance in the set.
 
 | | |
 |---|---|
-| Cases / opinions / paragraphs | 27 / 97 / 7,531 |
-| Analysis set (body, ≥25 words) | 5,557 |
-| Divided cases with both a majority and a dissent | 20 |
-| Cases with Δ > 0 | 16 / 20 |
-| Mean Δ | +6.27, 95% CI [+2.40, +10.23] |
-| Sign test / Wilcoxon | p = .0059 / p = .0021 |
+| Corpus | 27 cases, 97 opinions, ~5,500 substantive paragraphs (1974–2024) |
+| Divided cases analysed | 20 |
+| Majority leans to the categories | 16 of 20 cases |
+| Corpus mean Δ | +6.3 |
+| *Trump v. United States* | Δ = +24.4 — rank 20 of 20 |
 | Placebo partition (corpus / *Trump*) | p = .043 / p = .0035 |
-| *Trump v. United States* | Δ = +24.4, rank 20 of 20, z = +1.98 |
-| *Trump* as outlier (Grubbs, and max-gap MC) | **not supported**: G = 2.29 vs expected max-gap 2.03–2.21, p = .24–.37 |
 
----
-
-## Quick start
+**Reproduce it** → [`docs/METHOD.md`](docs/METHOD.md) · **How the method was arrived at** →
+[`docs/PROVENANCE.md`](docs/PROVENANCE.md) · **Manuscript** → [`paper/`](paper/)
 
 ```bash
-make setup          # python deps + the 133 MB ONNX embedding model
-make result         # prints the headline table
+make setup     # python deps + the 133 MB ONNX embedding model
+make result    # prints the headline table
 ```
-
-`data/proc/` ships pre-built in the working copy but is **git-ignored**; if you
-cloned this fresh, run `make all` (about four minutes, most of it embedding).
-Run every target from the repository root — some scripts resolve paths relative
-to the working directory.
 
 ---
 
-## The model
+## Opinions as data
 
-For case *c*, opinion *o*, and paragraph *j* of Jackson's main text, let
-`S_c[o,j]` be the mean cosine similarity between the paragraphs of opinion *o*
-and Jackson's paragraph *j*. Decompose it as a two-way layout inside the case:
+Every data scientist or machine learning engineer’s worst nightmare is a disorganized,
+noisy dataset. The adage “*garbage in… garbage out*” captures the frustration of
+searching for a clean dataset. Supreme Court opinions largely avoid this problem. With
+records dating back to the nation’s founding, written with unusual care, these cases
+offer data that is abundant and clean.
 
-```
-S_c[o,j]  =  μ_c + ρ_{c,o} + γ_{c,j} + R_c[o,j]                        (1)
+## The case
 
-F_c(o)    =  mean_{j ∈ ZONES} R_c[o,j]  −  mean_{j ∈ WARNING} R_c[o,j]  (2)
+Following his loss to Joe Biden in 2020, President Trump was indicted on charges that
+he attempted to overturn the election result. The prosecution led to *Trump v. United
+States* (2024), where the majority drew on Justice Jackson’s concurrence in *Youngstown
+Sheet & Tube Co. v. Sawyer* (1952), in creating protections against criminal prosecution
+for official presidential acts. Jackson described three zones. When the President acts
+with Congress’s authorization, his authority is at its maximum. When Congress has
+neither authorized nor forbidden the action, he operates in a “zone of twilight.” When
+he acts against the expressed or implied will of Congress, his power is at its “lowest
+ebb,” and he must rely on a constitutional power that Congress cannot limit. The *Trump*
+majority builds its zone of absolute immunity on Jackson’s phrase “conclusive and
+preclusive.” Jackson, however, wrote those words inside his third category, warning that
+a presidential claim to power “at once so conclusive and preclusive must be scrutinized
+with caution” (*Youngstown*, 1952). In *Trump*, the same phrase names the category of
+presidential power that receives the strongest protection. While the citation is
+accurate, what changed is the work the phrase is asked to do.
 
-Δ_c       =  F_c(majority)  −  F_c(dissent)                            (3)
-```
+## The question
 
-- `ρ` absorbs how Youngstown-flavoured an opinion is overall.
-- `γ` absorbs hub paragraphs of Jackson's that sit close to everything.
-- `R` is the double-centred residual — *selective* engagement. It sums to zero
-  along both margins, so no opinion can inflate it by citing *Youngstown* more.
-- `Δ` is therefore a contrast of contrasts; case-level effects cancel by
-  construction.
+This raises my question: did the majority use *Youngstown* differently from other
+Supreme Court decisions? More specifically, was it more selective, taking one part of
+Jackson’s concurrence and leaving the rest? Legal scholars took up the question soon
+after the ruling (see Gillian E. Metzger, *Disqualification, Immunity, and the
+Presidency* (2025)). Their close reading is admirable, but the research is a lengthy
+process. The rapid growth of Large Language Models (LLMs) has taught us that words and
+arguments are data. A model cannot say what the Constitution means, but it can test
+whether a reading of *Trump* is unusual within the case law. My question, then, is this:
+why not use the data to answer that narrower question?
 
-**Why the comparison must be made inside a case.** Jackson's zone paragraphs are
-about the President's relationship with Congress; his warning paragraphs are
-about concentrated power and free government. A detention case therefore
-resembles the warning register, and an allocation-of-authority case resembles
-the categories, *for reasons unrelated to doctrinal choice*. Comparing
-*Medellín* to *Hamdi* measures subject matter. Majority and dissent in the same
-case share the facts, statute, era, question presented and vocabulary;
-differencing inside the case removes all of it.
+## What an embedding model does
 
-This is not a stylistic preference — it is forced by the null results below.
-Three across-case designs were tried first and all failed.
+At its simplest form, an LLM takes text as input and predicts what comes next. To do
+that, it first converts words into numbers, as sketched in *Figure 1*. This project uses
+a related tool, an embedding model, which converts a whole paragraph into a list of
+numbers that captures what the paragraph is about. Two paragraphs that discuss the same
+thing in similar terms end up with similar numbers, so the model can say how alike any
+two passages are.
+
+![The embedding model, with the numerical representation of Justice Jackson’s words shown in bold.](paper/figures/fig1-embedding-model.png)
+
+**Figure 1:** The embedding model, with the numerical representation of Justice
+Jackson’s words shown in bold.
+
+## The corpus
+
+I divided the thirty-eight paragraphs of Jackson’s concurrence into eight sections:
+Preamble, Zone 1, Zone 2, Zone 3, Applying the Zones, Rejecting Article II, Inherent and
+Emergency, and Structural Warning. The last of these is Jackson’s closing passage on the
+dangers of concentrated executive power, which stands apart from the three zones. The
+comparison set is twenty-six later presidential-power decisions, from *United States v.
+Nixon* (1974) to *Trump v. United States* (2024), taken from the Caselaw Access Project
+and the Court’s own slip opinions rendering ninety-seven separate opinions and about
+5,500 substantive paragraphs. Every paragraph of every opinion was scored for how
+closely it resembles each paragraph of Jackson’s.
+
+## Why the comparison must be made inside a case
+
+My first approach was simply to ask how far each opinion sat from Jackson’s language,
+and it taught me that such a distance mostly measures subject matter. Jackson’s zone
+paragraphs are about the President’s relationship with Congress, and his warning is
+about concentrated power and free government. A detention case such as *Hamdi* naturally
+sounds like a candidate for the warning, and a case about who holds a power, such as
+*Medellín*, naturally sounds like it fits the zones. So, the comparison has to be made
+inside a case. A majority and a dissent in the same case share the facts, the statute,
+the era, and the vocabulary. But what differs is what each side chose to do with
+*Youngstown*. For each of the twenty cases in which the Court divided, I asked one
+question: relative to its own dissent, how much more does the majority lean on Jackson’s
+three zones than on his warning? I call that difference Δ. A positive Δ means the
+majority kept the categories and left the warning to the dissent; a negative Δ means the
+reverse. Each opinion’s overall resemblance to *Youngstown* is subtracted out first, so
+citing it more often does not raise the score. The six cases in which the Court did not
+divide, including the unanimous *United States v. Nixon*, are set aside.
+
+## The result
+
+*Figure 2* shows the result. The left panel ranks the twenty cases. Red bars are cases
+in which the majority took the zones and left the warning to the dissent; blue bars are
+the reverse. Sixteen of the twenty are red, and the dashed line marks the average of
++6.3. A split that lopsided would arise by chance less than one time in a hundred.
+*Trump v. United States* sits at the top at +24.4, nearly four times the average and
+ahead of *Morrison v. Olson* and *Trump v. Hawaii*. The pattern appears in the security
+cases, the separation-of-powers cases, and the cases about the President personally
+alike. Referencing the right panel of *Figure 2*, I split Jackson’s paragraphs into two
+groups at random, 4,000 times, and recomputed the result each time. The grey curve is
+what those random splits produce: a cluster around zero. Only about four random splits
+in a hundred reached the real average, and only about four in a thousand reached
+*Trump*’s score.
+
+![Left, the twenty divided cases ranked by Δ. Right, the same statistic under 4,000 random splits of Jackson’s paragraphs, with the real results marked.](out/figure3_inheritance.png)
+
+**Figure 2:** Left, the twenty divided cases ranked by Δ. Right, the same statistic under
+4,000 random splits of Jackson’s paragraphs, with the real results marked.
+
+## Two cautions
+
+The first of two cautions with these results are that *Trump* is the most extreme case,
+but the gap between it and *Morrison* is not wide enough to call it a *different* kind
+of case. It just sits at the top of a continuum away from Jackson’s words, not in a
+class of its own. Second, the score measures emphasis, not endorsement. It shows which
+part of Jackson an opinion works with, not whether the opinion agrees with him. Before
+settling on this design, I tried to train the model to predict from an opinion’s text
+whether it favored a broader or narrower presidency. It did little better than a coin
+flip (which is bad), even though the same method told majorities from dissents with fair
+reliability. This is simply a limitation stating that deviation in heavy favor of the
+majority does not always mean a broader presidency is argued. It grounds the fact that
+*Figure 2* only analyzes differences in the mathematical representation of the text and
+ideas that follow.
+
+## What the model adds to the close reading
+
+Trump’s majority took “conclusive and preclusive” from a passage in which Jackson
+describes a claim courts should distrust. What the modeling adds is that the surrounding
+warning is exactly the material this majority engages least, relative to its dissenters,
+of any majority in fifty years of presidential-power cases. Professor Metzger makes the
+same point from the legal side, arguing that the *Trump* majority drew on Jackson’s
+category of exclusive presidential power while overlooking his warning to scrutinize
+such claims with caution, and she points to the opinion’s broad treatment of
+presidential control over investigations and prosecutions.
+
+## The answer
+
+The answer to the question I began with is yes. The *Trump* majority used *Youngstown*
+more selectively than any other majority in the dataset. It kept Jackson’s classification
+scheme and left his warning about concentrated power to the dissent, to a degree no other
+case in the set approaches. That is not proof the decision was wrong; the model cannot
+judge the law. It is evidence that the majority’s reading of Jackson was unusual by the
+Court’s own standards, and that what it left out was the part of the concurrence written
+to caution courts about claims of exactly this kind.
+
+This analysis took a week and it’s no substitute for close reading, but it can direct
+that reading to the right place. To me, this work shows a real use for the mathematics
+behind LLMs, apart from anything they generate, in the legal space.
 
 ---
 
-## Repository layout
+## Behind the essay
 
-```
-src/            all code (flat, so imports resolve without packaging)
-data/raw/       Caselaw Access Project JSON, pre-2011 opinions
-data/raw_pdf/   supremecourt.gov PDFs + extracted text, 2014-2024
-data/proc/      derived; git-ignored; rebuilt by `make all`
-out/            figures (PNG + PDF) and findings.html (the write-up)
-scripts/        model fetcher
-docs/           PROVENANCE.md - the route to the method, for your methods section
-```
+The prose above is the paper. Everything that supports it lives in this directory:
 
-### `src/` by role
-
-**Pipeline** — run in this order.
-
-| File | Does |
+| Where | What |
 |---|---|
-| `manifest.py` | the 27-case list with reporter citations |
-| `fetch_cap.py` | pre-2011 opinions from `static.case.law` |
-| `fetch_modern.py` | 2014-2024 slip opinions from supremecourt.gov |
-| `refetch_pdfs.py` | re-extracts PDFs with PyMuPDF (see *Ligatures* below) |
-| `segment.py` | paragraph dataset with case/opinion/author/type metadata |
-| `embed.py` | bge-small-en-v1.5 via onnxruntime, CLS pooling, L2-normalised |
+| [`docs/METHOD.md`](docs/METHOD.md) | The formal model — equations (1)–(3), the full statistics table, every robustness check, the null results, the judgment calls, and the known data issues. Start here to reproduce or challenge the result. |
+| [`docs/PROVENANCE.md`](docs/PROVENANCE.md) | What was tried in order and why each failure forced the next step. The final design is what survived four earlier ones. |
+| [`paper/`](paper/) | The manuscript as submitted, plus the hand-drawn Figure 1. |
+| [`src/`](src/) | All code, flat. `within.py` is the headline result; `walkthrough.py` prints every intermediate number and asserts it matches. |
+| [`out/`](out/) | Figures (PNG + PDF) and `findings.html`, a standalone write-up of the numbers. |
+| [`data/`](data/) | Raw opinions from the Caselaw Access Project and supremecourt.gov. Derived files are git-ignored and rebuilt by `make all`. |
+| [`Makefile`](Makefile) | Every step, in order. `make all` runs the pipeline end to end in about four minutes. |
 
-**The result.**
+Run every target from this directory — some scripts resolve paths relative to the
+working directory.
 
-| File | Does |
-|---|---|
-| `within.py` | equations (1)–(3); the headline table |
-| `walkthrough.py` | `make walkthrough` — prints every intermediate number for *Trump* and asserts it matches `within.py` |
-| `within_robust.py` | placebo partition, role permutation, quotation, boundaries, thresholds |
-| `outlier.py` | whether *Trump* is a genuine outlier or the top of a continuum — **it is the latter** |
-| `figure3.py` | the paper's figure |
-| `jackson.py` | section map of Jackson's concurrence; `strip_quotes` |
-| `labels.py` | opinion-level stance labels (see *Judgment calls*) |
-| `fe.py` | shared loaders; also the pooled fixed-effects null result |
+### Sources and reuse
 
-**Null results the paper reports.**
+Opinions come from the Caselaw Access Project (`static.case.law`) and supremecourt.gov,
+both public; Supreme Court opinions are federal government works and not subject to
+copyright. Embeddings use `BAAI/bge-small-en-v1.5` (Apache-2.0). All inference is by
+permutation and bootstrap — no asymptotic standard errors are claimed anywhere.
 
-| File | Result |
-|---|---|
-| `anchors.py`, `anchors2.py`, `axis.py` | semantic constraint↔autonomy axis; orders Jackson's zones backwards |
-| `classify.py` | stance classifier, leave-one-case-out AUC 0.540 |
-| `diagnose.py` | same features predict role (0.756) and era (0.820) |
-| `fe.py`, `perm.py` | pooled deference direction AUC 0.485, permutation p = .62 |
-| `domains.py` | per-domain directions; near-orthogonality is the high-dimensional null, not a finding |
-| `drift.py` | Δ has no time trend, r = +0.10, p = .31 |
-
-**Known wart.** `diagnose.py`, `perm.py`, `robust.py` and `refetch_pdfs.py`
-were written as one-off scripts and execute on import rather than behind a
-`__main__` guard. They are correct and the Makefile invokes them as scripts;
-they were left unrefactored so the published numbers stay byte-reproducible.
-
-**Superseded but cited.** `jackson2.py`, `bootstrap.py`, `robust.py`, `figure.py`
-are the earlier single-case version of the analysis (Trump's five opinions
-only). `within.py` generalises it from n = 1 case to n = 20. `figure.py` still
-produces `figure2_limits`. `fetch_cl.py` is a dead end kept for provenance —
-CourtListener's API returned 401 and its HTML is bot-gated.
-
----
-
-## What would break the result, and what happened
-
-| Challenge | Outcome |
-|---|---|
-| **Placebo partition** — 4,000 random splits of Jackson's paragraphs into groups of the same sizes (3 and 5) | null −0.1 ± 3.7; corpus p = .043, *Trump* p = .0035 |
-| **Role permutation** — shuffle which opinions count as majority/dissent | null −0.0 ± 2.7; p = .008 |
-| **Quotation** — delete every quoted span and re-embed | +7.0 (from +6.3); *Trump* +28.3 |
-| **Section boundaries** — drop each paragraph of each section in turn | +4.0 to +7.8, all positive |
-| **Length threshold** — minimum opinion 5 to 30 paragraphs | +6.1 to +6.3, p ≤ .005 throughout |
-| **Domain** — security / structure / immunity separately | +6.4 / +5.3 / +7.3 |
-
-The placebo is the one that matters. Had a random split of Jackson's text
-produced the same gap, the result would have been about the genre of majorities
-and dissents rather than about *Youngstown*.
-
----
-
-## Judgment calls, flagged
-
-Three places where a human decision enters, all reversible in one file:
-
-1. **`labels.py`** — whether each opinion argues for a broader or narrower
-   presidency. Contested cases (*Mistretta*, Rehnquist in *Chadha*, Breyer in
-   *Medellín*) are marked `None` and excluded rather than guessed. **These
-   labels are not load-bearing for the headline result** — Δ uses only the
-   majority/dissent distinction, which is a matter of record. They matter only
-   to the null results.
-2. **`jackson.py: SECTIONS`** — the partition of the concurrence into zones,
-   warning, and the rest. Survives leave-one-out and beats random partitions,
-   but was drawn by hand.
-3. **`domains.py: DOMAIN`** — assignment of cases to security / structure /
-   immunity, used only for the subgroup table.
-
-## Known data issues
-
-- **Ligatures.** The official *preliminary print* PDFs for *Trump*, *Collins*
-  and *Biden v. Nebraska* have broken font encoding that silently drops the
-  `fi` ligature: "official" extracts as "offcial" 336 times in *Trump* alone —
-  the central term of the case. `refetch_pdfs.py` uses the clean slip-opinion
-  PDFs instead. Check any new case with
-  `grep -c 'offcial' data/raw_pdf/<case>.txt`.
-- **Footnotes.** Separated by font size in the PDF path, but *not* in the CAP
-  path — pre-2011 cases carry footnotes inline in the body stream. The analysis
-  set is body paragraphs of ≥25 words, which removes most but not all of them.
-- **Two cases were recovered from the Wayback Machine** (*Noel Canning*,
-  *Zivotofsky*): the Court has removed those slip PDFs from its site.
-- **OCR.** CAP's text has occasional artefacts — `Scaiia` for Scalia in
-  *Clinton v. City of New York*, `de jacto` for *de facto* in Jackson's
-  concurrence. Neither affects the analysis; both are visible in `data/raw/`.
-
-## Limits to state in the paper
-
-- Δ measures **emphasis, not endorsement**. It shows which part of Jackson's
-  text an opinion works with, and deliberately claims nothing about agreement.
-  The null results are why.
-- n = 20 cases. The placebo and permutation tests address whether the statistic
-  is meaningful, not whether twenty cases represent the doctrine.
-- Four cases are excluded for lacking a dissent of sufficient length, including
-  *United States v. Nixon* — unanimous, and therefore uninformative under a
-  design built on disagreement.
-
----
-
-## Sources
-
-Caselaw Access Project (`static.case.law`) and supremecourt.gov, both public.
-Supreme Court opinions are federal government works and not subject to
-copyright. Embeddings: `BAAI/bge-small-en-v1.5`, Apache-2.0.
-All inference is by permutation and bootstrap; no asymptotic standard errors
-are claimed anywhere.
+Code is MIT-licensed, the writing CC BY 4.0. See [the repository root](../README.md#license).
