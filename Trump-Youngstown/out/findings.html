@@ -1,0 +1,316 @@
+<title>Jackson's Zones in Trump</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600;700&display=swap">
+
+<style>
+:root{
+  --paper:#fbfbf9; --surface:#ffffff;
+  --ink:#15171c; --body:#2b2f38; --slate:#5c6270; --muted:#878c99;
+  --rule:#e0e0dc; --rule-strong:#c9cac4;
+  --accent:#7d2b34; --accent-soft:#f3e9ea;
+  --blue:#2a78d6; --red:#c93f3e;
+  --shadow:0 1px 2px rgba(21,23,28,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#141518; --surface:#1b1d21;
+    --ink:#f2f1ee; --body:#d6d5d0; --slate:#a2a6b0; --muted:#7e828c;
+    --rule:#2c2e34; --rule-strong:#3d4048;
+    --accent:#d98a8f; --accent-soft:#2a1e20;
+    --blue:#5b9de8; --red:#e07a79;
+    --shadow:0 1px 2px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141518; --surface:#1b1d21;
+  --ink:#f2f1ee; --body:#d6d5d0; --slate:#a2a6b0; --muted:#7e828c;
+  --rule:#2c2e34; --rule-strong:#3d4048;
+  --accent:#d98a8f; --accent-soft:#2a1e20;
+  --blue:#5b9de8; --red:#e07a79;
+  --shadow:0 1px 2px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--body);
+  font-family:Spectral,Georgia,'Times New Roman',serif;
+  font-size:17px;line-height:1.68;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px 96px}
+section > *, header.caption > *:not(.docket), .wrap > p.foot{max-width:640px}
+section > figure, section > .tbl-scroll, header.caption > .docket, section > .eqbox{max-width:100%}
+
+header.caption{border-bottom:2px solid var(--ink);padding:56px 0 22px;margin-bottom:40px}
+.eyebrow{
+  font-family:'Public Sans',system-ui,sans-serif;
+  font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 18px;
+}
+h1{
+  font-weight:700;font-size:clamp(30px,4.6vw,46px);line-height:1.12;
+  letter-spacing:-.015em;color:var(--ink);margin:0 0 14px;text-wrap:balance;
+}
+.standfirst{font-size:19px;line-height:1.6;color:var(--slate);margin:0;max-width:620px}
+.standfirst em{color:var(--ink);font-style:italic}
+
+.docket{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(122px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:36px 0 0;
+}
+.docket div{background:var(--paper);padding:13px 15px}
+.docket dt{
+  font-family:'Public Sans',system-ui,sans-serif;
+  font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 5px;
+}
+.docket dd{
+  font-family:'IBM Plex Mono',ui-monospace,monospace;
+  font-size:15px;font-weight:500;color:var(--ink);margin:0;font-variant-numeric:tabular-nums;
+}
+
+section{margin:64px 0 0}
+.fnum{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;
+  color:var(--accent);letter-spacing:.08em;display:block;margin-bottom:8px;
+}
+h2{
+  font-weight:600;font-size:clamp(22px,2.8vw,28px);line-height:1.22;
+  letter-spacing:-.01em;color:var(--ink);margin:0 0 6px;text-wrap:balance;
+}
+.verdict{
+  font-family:'Public Sans',system-ui,sans-serif;
+  font-size:12px;font-weight:600;letter-spacing:.04em;
+  display:inline-block;padding:3px 9px;border-radius:3px;margin-bottom:20px;
+}
+.v-strong{background:var(--accent-soft);color:var(--accent)}
+.v-null{background:transparent;color:var(--muted);border:1px solid var(--rule-strong)}
+p{margin:0 0 19px}
+h3{
+  font-family:'Public Sans',system-ui,sans-serif;
+  font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--slate);margin:34px 0 12px;
+}
+
+blockquote{
+  margin:28px 0;padding:2px 0 2px 24px;border-left:3px solid var(--accent);
+  font-size:18px;line-height:1.62;color:var(--ink);
+}
+blockquote .mark{background:var(--accent-soft);padding:1px 3px;border-radius:2px;font-style:italic}
+blockquote cite{
+  display:block;margin-top:12px;font-style:normal;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);
+}
+
+.eqbox{
+  background:var(--surface);border:1px solid var(--rule);
+  padding:20px 24px;margin:26px 0;overflow-x:auto;box-shadow:var(--shadow);
+}
+.eq{
+  font-family:'IBM Plex Mono',monospace;font-size:14px;line-height:1.85;
+  color:var(--ink);white-space:nowrap;margin:0;
+}
+.eq .n{color:var(--muted);float:right;padding-left:28px}
+.eqnote{
+  font-family:'Public Sans',system-ui,sans-serif;font-size:12.5px;
+  color:var(--muted);margin:12px 0 0;line-height:1.55;white-space:normal;
+}
+
+figure{margin:34px 0;max-width:100%}
+figure img{width:100%;display:block;border:1px solid var(--rule);background:#fff;border-radius:2px}
+figcaption{
+  font-family:'Public Sans',system-ui,sans-serif;
+  font-size:12.5px;line-height:1.55;color:var(--muted);margin-top:11px;max-width:760px;
+}
+figcaption b{color:var(--slate);font-weight:600}
+
+.tbl-scroll{overflow-x:auto;margin:24px 0}
+table{border-collapse:collapse;font-family:'Public Sans',system-ui,sans-serif;font-size:13.5px;width:100%;min-width:460px}
+th,td{text-align:left;padding:9px 16px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);border-bottom:1px solid var(--rule-strong);
+}
+td.num{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;color:var(--ink);font-weight:500}
+.pos{color:var(--red)} .neg{color:var(--blue)}
+
+.note{
+  background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--rule-strong);
+  padding:18px 22px;margin:28px 0;font-size:15.5px;line-height:1.6;box-shadow:var(--shadow);
+}
+.note p{margin:0 0 12px} .note p:last-child{margin:0}
+.note strong{color:var(--ink)}
+
+ul{margin:0 0 19px;padding-left:22px}
+li{margin-bottom:9px}
+code{
+  font-family:'IBM Plex Mono',monospace;font-size:.87em;
+  background:var(--surface);border:1px solid var(--rule);padding:1px 5px;border-radius:3px;color:var(--ink);
+}
+hr{border:0;border-top:1px solid var(--rule);margin:56px 0}
+.foot{font-size:13.5px;color:var(--muted);line-height:1.6}
+</style>
+
+<div class="wrap">
+
+<header class="caption">
+  <p class="eyebrow">National security law · Presidential power, 1952–2024</p>
+  <h1>Youngstown's divided inheritance</h1>
+  <p class="standfirst">Jackson's concurrence left two things: a scheme for classifying presidential power, and a warning about concentrating it. Across twenty divided cases, majorities take the scheme and dissents take the warning — and <em>Trump v. United States</em> is the sharpest split in seventy years.</p>
+
+  <dl class="docket">
+    <div><dt>Cases</dt><dd>27</dd></div>
+    <div><dt>Opinions</dt><dd>97</dd></div>
+    <div><dt>Paragraphs</dt><dd>7,531</dd></div>
+    <div><dt>Divided cases</dt><dd>20</dd></div>
+    <div><dt>Δ &gt; 0</dt><dd>16/20</dd></div>
+    <div><dt>Trump rank</dt><dd>20/20</dd></div>
+  </dl>
+</header>
+
+<section>
+  <span class="fnum">RESULT</span>
+  <h2>Majorities keep the categories; dissents keep the warning</h2>
+  <span class="verdict v-strong">Sign test p = .006 · Wilcoxon p = .002 · placebo p = .043</span>
+
+  <p>Jackson's concurrence is cited as a single authority, but it contains two separable resources. At <span style="white-space:nowrap">343 U.S. 635–638</span> it supplies the three categories — power at its maximum, the zone of twilight, the lowest ebb. At <span style="white-space:nowrap">653–655</span> it supplies something else entirely: a warning that executive power "has the advantage of concentration in a single head," and that the Court's duty is to be "last, not first, to give them up."</p>
+
+  <p>Those two resources are not inherited equally. Within each of twenty divided cases, the majority pulls toward the categories and the dissent pulls toward the warning. The effect appears in <b>16 of 20</b> cases and averages <b>+6.3</b> on a scale where the placebo standard deviation is 3.7.</p>
+</section>
+
+<section>
+  <figure>
+    <img src="figure3_inheritance.png" alt="Panel A: lollipop chart of twenty presidential-power cases ranked by Delta. Trump v. United States is highest at +24.4; sixteen of twenty cases are positive. Panel B: placebo null distribution centred near zero with the corpus mean at +6.3 (p=0.043) and Trump at +24.4 (p=0.004) marked well into the right tail.">
+    <figcaption><b>Figure 1.</b> Δ is a difference-in-differences: how much more the majority leans toward Jackson's three categories than its own dissent does, measured within each case so that subject matter, era, statute and vocabulary all cancel. Panel B replaces the real zones/warning split with 4,000 random partitions of Jackson's paragraphs into groups of the same sizes.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h3>Trump v. United States is the extreme case</h3>
+
+  <p>At <b>Δ = +24.4</b>, <em>Trump</em> ranks first of twenty, nearly four times the corpus mean and 1.98 standard deviations above it. Against the placebo null it sits at <b>p = .004</b>. Its majority engages Jackson's classificatory apparatus more heavily, relative to its dissenters, than any other case in seven decades of presidential-power litigation.</p>
+
+  <p>The pattern is not confined to one doctrinal area, which matters for a national security argument — it would be easy to dismiss as an artifact of the detention cases. It is not:</p>
+
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th>Domain</th><th>Mean Δ</th><th>Cases</th><th>Examples</th></tr></thead>
+    <tbody>
+      <tr><td>War powers, detention, foreign affairs</td><td class="num pos">+6.4</td><td class="num">8</td><td>Hamdi, Hamdan, Boumediene, Zivotofsky</td></tr>
+      <tr><td>Internal structure, removal, delegation</td><td class="num pos">+5.3</td><td class="num">7</td><td>Morrison, Chadha, Free Enterprise Fund</td></tr>
+      <tr><td>The President personally</td><td class="num pos">+7.3</td><td class="num">5</td><td>Nixon v. Fitzgerald, Vance, Mazars</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <span class="fnum">MODEL</span>
+  <h2>Why the comparison has to be made inside a case</h2>
+
+  <p>The obvious approach — score every opinion on an "executive power" scale and watch it move over time — does not work, and the reason it fails is what forces the design.</p>
+
+  <p>Jackson's zone paragraphs are about the President's relationship with Congress. His warning paragraphs are about concentrated power and free government. So a detention case resembles the warning register and an allocation-of-authority case resembles the categories <em>for reasons that have nothing to do with doctrinal choice</em>. Comparing <em>Medellín</em> to <em>Hamdi</em> measures subject matter, not jurisprudence.</p>
+
+  <p>Majority and dissent in the same case share the facts, the statute, the era, the question presented, and the vocabulary. Differencing inside the case removes all of it.</p>
+
+  <div class="eqbox">
+    <p class="eq">S<sub>c</sub>[o,j] &nbsp;=&nbsp; μ<sub>c</sub> + ρ<sub>c,o</sub> + γ<sub>c,j</sub> + R<sub>c</sub>[o,j]<span class="n">(1)</span></p>
+    <p class="eq">F<sub>c</sub>(o) &nbsp;=&nbsp; mean<sub>j∈ZONES</sub> R<sub>c</sub>[o,j] &nbsp;−&nbsp; mean<sub>j∈WARNING</sub> R<sub>c</sub>[o,j]<span class="n">(2)</span></p>
+    <p class="eq">Δ<sub>c</sub> &nbsp;=&nbsp; F<sub>c</sub>(majority) &nbsp;−&nbsp; F<sub>c</sub>(dissent)<span class="n">(3)</span></p>
+    <p class="eqnote">S<sub>c</sub>[o,j] is the mean cosine similarity between the paragraphs of opinion <i>o</i> and paragraph <i>j</i> of Jackson's main text. ρ absorbs how Youngstown-flavoured an opinion is overall; γ absorbs hub paragraphs of Jackson's that sit close to everything. The interaction R is the double-centred residual — selective engagement — and sums to zero along both margins, so no opinion can inflate it by citing <i>Youngstown</i> more often. Δ is therefore a contrast of contrasts, with case-level effects cancelling by construction.</p>
+  </div>
+
+  <h3>What would break it, and what happened when tried</h3>
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th>Challenge</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td><b>Placebo partition.</b> Maybe majorities apply tests and dissents warn, so <em>any</em> doctrinal/rhetorical split would do this. 4,000 random splits of Jackson's paragraphs into groups of the same sizes.</td><td class="num">null −0.1 ± 3.7<br>corpus p = .043<br>Trump p = .004</td></tr>
+      <tr><td><b>Role permutation.</b> Shuffle which opinions count as majority and dissent, preserving lengths.</td><td class="num">null −0.0 ± 2.7<br>p = .008</td></tr>
+      <tr><td><b>Quotation.</b> Both sides quote <em>Youngstown</em>; delete every quoted span and re-embed.</td><td class="num">+7.0 (from +6.3)<br>Trump +28.3</td></tr>
+      <tr><td><b>Section boundaries.</b> Drop each paragraph of each section in turn.</td><td class="num">+4.0 to +7.8<br>all positive</td></tr>
+      <tr><td><b>Length threshold.</b> Minimum opinion length from 5 to 30 paragraphs.</td><td class="num">+6.1 to +6.3<br>p ≤ .005 throughout</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>The placebo is the one that matters. Had a random split of Jackson's text produced the same gap, the result would have been about the genre of majorities and dissents rather than about <em>Youngstown</em>. It does not.</p>
+</section>
+
+<hr>
+
+<section>
+  <span class="fnum">DOCTRINE</span>
+  <h2>"Conclusive and preclusive" is a phrase from the lowest ebb</h2>
+  <span class="verdict v-strong">Verifiable by citation — no model required</span>
+
+  <p>The majority builds its zone of absolute immunity on a phrase taken from Jackson: where the President's authority is "conclusive and preclusive," Congress may not regulate and courts may not examine. Roberts cites it to <span style="white-space:nowrap">343 U.S. at 638</span>.</p>
+
+  <p>Page 638 sits inside Jackson's <strong>third</strong> category — the lowest ebb. The phrase does not appear where he describes power at its maximum. It appears where he is most sceptical, and it is the object of a warning:</p>
+
+  <blockquote>
+    3. When the President takes measures incompatible with the expressed or implied will of Congress, his power is at its lowest ebb… Courts can sustain exclusive presidential control in such a case only by disabling the Congress from acting upon the subject. Presidential claim to a power at once <span class="mark">so conclusive and preclusive</span> must be scrutinized with caution, for what is at stake is the equilibrium established by our constitutional system.
+    <cite>Youngstown Sheet &amp; Tube Co. v. Sawyer, 343 U.S. 579, 637–638 (1952) (Jackson, J., concurring)</cite>
+  </blockquote>
+
+  <p>In Jackson's sentence the phrase describes a <em>claim</em> to be distrusted. In the majority's usage it becomes the <em>name of a category</em> attracting the strongest protection the opinion affords. The grammar moves from predicate to label; the caution does not travel with it.</p>
+
+  <div class="note">
+    <p><strong>State this narrowly.</strong> It is not a misquotation. Roberts cites the page accurately and elsewhere cites the first and second categories to <span style="white-space:nowrap">343 U.S. at 635, 637</span>. The claim worth making is smaller and harder to answer: a phrase Jackson wrote to mark what courts should distrust now names the domain courts may not reach — and the measurement in Figure 1 shows the surrounding warning is exactly the material this majority engages least.</p>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <span class="fnum">NEGATIVE RESULTS</span>
+  <h2>Three things that did not work, and why that is load-bearing</h2>
+  <span class="verdict v-null">Report these — they justify the design</span>
+
+  <p><b>A semantic "constraint ↔ autonomy" axis.</b> Built from anchor phrases, it placed Jackson's <em>lowest ebb</em> further toward autonomy than his <em>maximum power</em>, and put <em>Youngstown</em> itself on the autonomy side. Its constraint pole filled with statutory boilerplate; its autonomy pole included Sotomayor's dissent in <em>Trump v. Hawaii</em>. It correlated <b>+0.48</b> with nothing more than the density of executive-power vocabulary. Rebuilding the anchors as minimal pairs cut that to +0.37 and still ordered the zones backwards.</p>
+
+  <p><b>A stance classifier.</b> Trained on paragraphs from 25 pre-2024 cases labelled expansive or restrictive, evaluated leave-one-<em>case</em>-out: <b>AUC 0.540</b>. The same features and protocol reach 0.756 for majority-vs-dissent and 0.820 for period. The pipeline works; doctrinal commitment is what fails to transfer.</p>
+
+  <p><b>A within-case fixed-effects deference direction.</b> The natural repair — estimate a common direction δ from within-case contrasts — returned <b>AUC 0.485</b>, below chance, against a permutation null of 0.499 ± 0.029 (<b>p = .62</b>). Splitting δ by doctrinal domain did not help; the three domain directions were mutually near-orthogonal, which in 384 dimensions is simply what random vectors look like.</p>
+
+  <figure>
+    <img src="figure2_limits.png" alt="Bar chart of leave-one-case-out AUC for three prediction targets: doctrinal stance 0.54, rhetorical role 0.76, period 0.82.">
+    <figcaption><b>Figure 2.</b> Optional second figure. Supreme Court opinions are far more legible to a text model as period and posture than as doctrinal commitment.</figcaption>
+  </figure>
+
+  <p>This is why the paper measures <em>engagement</em> rather than <em>endorsement</em>. Embedding similarity reliably indicates which passages an opinion works with; it carries no information about whether the opinion agrees. The design uses only the former, and the placebo and permutation tests police the difference.</p>
+
+  <div class="note">
+    <p><strong>One more null worth a sentence.</strong> Δ does not trend over time (<em>r</em> = +0.10, <em>p</em> = .31). The divided inheritance is a standing feature of the case law from 1977 onward, not a recent drift. <em>Trump</em> is the extreme instance of an old pattern rather than the endpoint of a slide — a more defensible and more interesting claim.</p>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <h2>Method, and what a reader could challenge</h2>
+
+  <h3>Corpus</h3>
+  <p>Twenty-seven presidential-power decisions, 1952–2024. Pre-2011 opinions from the Caselaw Access Project, which separates concurrences and dissents with author attribution; 2014 onward from the Court's own slip opinions, segmented by recovering paragraph breaks from PDF layout — the Court indents the first line of each paragraph and nothing else in the body is indented. Footnotes are separated by font size in the PDF path but not in the CAP path, so the analysis set is body paragraphs of at least 25 words.</p>
+
+  <div class="note">
+    <p><strong>A fix worth knowing about.</strong> The official preliminary-print PDFs for <em>Trump</em>, <em>Collins</em> and <em>Biden v. Nebraska</em> have broken font encoding that silently drops the <code>fi</code> ligature: "official" extracts as "offcial" 336 times in <em>Trump</em> alone — the central term of the case. The slip-opinion PDFs are clean and were used instead.</p>
+  </div>
+
+  <h3>Limits to state in the paper</h3>
+  <ul>
+    <li>Δ measures <em>emphasis</em>, not endorsement. It shows which part of Jackson's text an opinion works with, and deliberately claims nothing about agreement.</li>
+    <li>The partition of Jackson's concurrence into "zones" and "warning" is an editorial judgment. It survives leave-one-out and beats random partitions, but it was drawn by hand.</li>
+    <li>n = 20 cases. The placebo and permutation tests address whether the statistic is meaningful, not whether twenty cases represent the doctrine.</li>
+    <li>Four cases are excluded for having no dissent of sufficient length, including <em>United States v. Nixon</em> — a unanimous decision, and therefore uninformative under a design built on disagreement.</li>
+  </ul>
+</section>
+
+<hr>
+
+<p class="foot">Sources: Caselaw Access Project (<code>static.case.law</code>) and supremecourt.gov. Embeddings: BAAI/bge-small-en-v1.5 via onnxruntime, CLS pooling, L2-normalised. Inference by permutation and bootstrap throughout; no asymptotic standard errors are claimed.</p>
+
+</div>

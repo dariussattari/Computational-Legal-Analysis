@@ -1,0 +1,9 @@
+# Pinned to what this analysis was actually run with.
+numpy==2.4.4
+scipy==1.17.1
+scikit-learn==1.7.2
+matplotlib==3.10.8
+requests==2.32.4
+tokenizers==0.22.2
+onnxruntime==1.23.2
+pymupdf>=1.24
